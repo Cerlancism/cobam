@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@types/node": "^16.9.6",
+    "cobolscript": "git://github.com/ajlopez/CobolScript",
     "commander": "^8.2.0"
   },
   "bin": {
