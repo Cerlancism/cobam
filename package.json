@@ -1,0 +1,24 @@
+{
+  "name": "cobol-analyser",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "dist/cli.js",
+  "scripts": {
+    "cli": "tsc && node ./dist/cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "4.4.3"
+  },
+  "dependencies": {
+    "@types/node": "^16.9.6",
+    "commander": "^8.2.0"
+  },
+  "bin": {
+    "coba": "dist/cli.js"
+  }
+}
