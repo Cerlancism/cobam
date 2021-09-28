@@ -1,4 +1,4 @@
-export function hello()
+export function hello(...extras: string[])
 {
-    console.log("Hello")
+    console.log("Hello", ...extras)
 }
