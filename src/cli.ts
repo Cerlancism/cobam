@@ -2,7 +2,7 @@
 import path from 'path'
 import fs from 'fs'
 
-import { Argument, Command } from "commander";
+import { Argument, Option, Command } from "commander";
 //@ts-ignore
 import cobolscript from 'cobolscript';
 
@@ -10,7 +10,7 @@ import { wordCount } from "./analyser/tokeniser.js";
 import { reflect } from './utils/reflection.js';
 import { hello } from './index.js';
 import { parseCopybookFile } from './analyser/parser.js';
-import { testRead } from './utils/benchmark.js';
+import { benchmarkFiles, FileReadBenchmark } from './utils/benchmark.js';
 
 const program = new Command("Cobol Analyser")
 
@@ -26,9 +26,30 @@ program.command("hello")
     .addArgument(argsHello)
     .action((args) => hello(...args))
 
-program.command("benchmark")
+const benchMarkCmd = program.command("benchmark")
     .addArgument(argFileRequired)
-    .action(file => testRead(path.resolve(file)))
+    .addOption(new Option('-r, --recursive'))
+    .action(target => {
+        if (fs.lstatSync(target).isDirectory()) {
+            const recursive = benchMarkCmd.opts().recursive as boolean
+            function traverse(dir: string) {
+                const full = path.resolve(dir)
+                const items = fs.readdirSync(full, { withFileTypes: true })
+                benchmarkFiles(items.filter(x => x.isFile()).map(x => path.join(full, x.name)))
+
+                if (recursive) {
+                    const recurses = items.filter(x => x.isDirectory())
+                    for (const dir of recurses) {
+                        traverse(path.join(full, dir.name))
+                    }
+                }
+            }
+            traverse(target)
+        }
+        else {
+            benchmarkFiles([target])
+        }
+    })
 
 program.command("words")
     .addArgument(argFileRequired)
