@@ -10,6 +10,7 @@ import { wordCount } from "./analyser/tokeniser.js";
 import { reflect } from './utils/reflection.js';
 import { hello } from './index.js';
 import { parseCopybookFile } from './analyser/parser.js';
+import { testRead } from './utils/benchmark.js';
 
 const program = new Command("Cobol Analyser")
 
@@ -25,9 +26,13 @@ program.command("hello")
     .addArgument(argsHello)
     .action((args) => hello(...args))
 
+program.command("benchmark")
+    .addArgument(argFileRequired)
+    .action(file => testRead(path.resolve(file)))
+
 program.command("words")
     .addArgument(argFileRequired)
-    .action(file => console.log(wordCount(fs.readFileSync(file).toString())))
+    .action(file => console.log(wordCount(fs.readFileSync(path.resolve(file)).toString())))
 
 program.command("run")
     .addArgument(argFileRequired)
