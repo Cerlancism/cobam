@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <iframe id="mainframe" frameborder="0"></iframe>
+    <script>
+        (() =>
+        {
+            console.log("windows height", window.innerHeight)
+            const frame = /** @type {HTMLIFrameElement} */ (document.querySelector("#mainframe"))
+
+            function fit()
+            {
+                frame.width = window.innerWidth - 1
+                frame.height = window.innerHeight - 5
+            }
+
+            fit()
+
+            frame.src = "http://localhost:30000"
+
+            window.addEventListener("resize", () => 
+            {
+                fit()
+            })
+
+            // frame.addEventListener("load", () =>
+            // {
+            //     fit()
+            // })
+        })()
+    </script>
+
+
+
+
+
+    <style>
+        body.vscode-light {
+            background-color: white;
+        }
+
+        body.vscode-dark {
+            background-color: white;
+        }
+
+        body,
+        iframe {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+    </style>
+</body>
+
+</html>
